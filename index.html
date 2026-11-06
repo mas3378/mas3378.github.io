@@ -488,6 +488,37 @@
             }
             const pullRadius = 320;
             const maxPull = 1;
+            const scrollParallax = 0.15;
+            let pageScroll = window.scrollY;
+            const textDim = 0.25;
+            const textFade = 14;
+            const textSelector = '.eyebrow, header.hero h1, .tagline, .socials a, nav.tabs button';
+            let textRects = [];
+
+            function updateTextRects() {
+                const rects = [];
+                document.querySelectorAll(textSelector).forEach(el => {
+                    if (el.matches('a, button')) {
+                        rects.push(el.getBoundingClientRect());
+                    } else {
+                        const range = document.createRange();
+                        range.selectNodeContents(el);
+                        for (const r of range.getClientRects()) rects.push(r);
+                    }
+                });
+                textRects = rects.filter(r => r.width > 0 && r.bottom > 0 && r.top < window.innerHeight);
+            }
+
+            function textShade(x, y) {
+                let shade = 1;
+                for (const r of textRects) {
+                    const ox = Math.max(r.left - x, 0, x - r.right);
+                    const oy = Math.max(r.top - y, 0, y - r.bottom);
+                    const out = Math.hypot(ox, oy);
+                    if (out < textFade) shade = Math.min(shade, textDim + (1 - textDim) * (out / textFade));
+                }
+                return shade;
+            }
             let dpr = Math.min(window.devicePixelRatio || 1, 2);
             let mouse = { x: -9999, y: -9999 };
 
@@ -525,7 +556,8 @@
                 const nearDist = focal;
                 const farDist = (focal * focal) / -horizonY;
                 const farScale = focal / farDist;
-                const zShift = time * scrollSpeed;
+                pageScroll += (window.scrollY - pageScroll) * 0.08;
+                const zShift = time * scrollSpeed - pageScroll * scrollParallax;
                 const xShift = time * driftSpeed;
                 const tStart = Math.floor((nearDist - dotSpacing * 2 + zShift) / dotSpacing) * dotSpacing;
                 const tEnd = farDist + dotSpacing + zShift;
@@ -595,7 +627,8 @@
                         const cb = Math.round(baseCol[2]);
 
                         ctx.beginPath();
-                        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, ${Math.min(alpha, 0.75).toFixed(3)})`;
+                        alpha = Math.min(alpha, 0.75) * textShade(drawX, drawY);
+                        ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, ${alpha.toFixed(3)})`;
                         ctx.arc(drawX, drawY, r, 0, Math.PI * 2);
                         ctx.fill();
                     }
@@ -612,6 +645,10 @@
                 mouse.y = -9999;
             });
             window.addEventListener('resize', resize);
+            window.addEventListener('resize', updateTextRects);
+            window.addEventListener('scroll', updateTextRects, { passive: true });
+            setInterval(updateTextRects, 500);
+            updateTextRects();
 
             resize();
             requestAnimationFrame(draw);
