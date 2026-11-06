@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sam Edwards</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <script>
+        try {
+            if (localStorage.getItem('se-theme') === 'light') document.documentElement.dataset.theme = 'light';
+        } catch (e) {}
+    </script>
     <style>
         :root {
             --bg: #17181d;
@@ -210,6 +215,7 @@
         }
         .gallery-slot .gallery-item {
             border-radius: 3px;
+            background: #3a3e4a;
         }
         .gallery-item {
             display: block;
@@ -277,6 +283,103 @@
             font-family: var(--mono);
             font-size: 0.9em;
         }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            list-style: none;
+            margin: -2px 0 14px;
+            padding: 0;
+        }
+        .tags li {
+            font-family: var(--mono);
+            font-size: 0.68em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 3px 8px;
+        }
+        .site-footer {
+            margin-top: 48px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 20px;
+            font-family: var(--mono);
+            font-size: 0.75em;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+        .site-footer a {
+            color: var(--text-muted);
+        }
+        .site-footer a:hover {
+            color: var(--accent);
+        }
+        .footer-settings {
+            margin-left: auto;
+            position: relative;
+        }
+        .footer-settings > button {
+            font: inherit;
+            letter-spacing: inherit;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background: none;
+            border: 1px solid var(--border-strong);
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+        .footer-settings > button:hover,
+        .footer-settings > button[aria-expanded="true"] {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .settings-panel {
+            position: absolute;
+            right: 0;
+            bottom: calc(100% + 8px);
+            min-width: 220px;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: 6px;
+            padding: 12px 14px;
+            display: grid;
+            gap: 10px;
+            z-index: 5;
+        }
+        .settings-panel[hidden] {
+            display: none;
+        }
+        .settings-panel label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            color: var(--text);
+            cursor: pointer;
+        }
+        .settings-panel input {
+            accent-color: var(--accent);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        :root[data-theme="light"] {
+            --bg: #e3e6ef;
+            --surface: #ffffff;
+            --surface-hover: #f3f4f8;
+            --border: rgba(58, 62, 74, 0.18);
+            --border-strong: rgba(58, 62, 74, 0.35);
+            --text: #3a3e4a;
+            --text-muted: #626775;
+            --accent: #5f6d3a;
+        }
     </style>
 </head>
 <body>
@@ -304,11 +407,20 @@
         <button data-tab="music">Music projects</button>
         <button data-tab="gamedev">Game development projects</button>
         <button data-tab="extras">Extras</button>
+        <button data-tab="about">About me</button>
     </nav>
 
     <section class="panel active" id="academic">
         <div class="card">
             <h2>Music Genre Classification using Machine Learning</h2>
+            <ul class="tags">
+                <li>Machine Learning</li>
+                <li>Audio</li>
+                <li>MFCCs</li>
+                <li>Random Forest</li>
+                <li>CNN</li>
+                <li>LSTM</li>
+            </ul>
             <p>
                 I explored a simplified approach to classifying music genres using the means and variances
                 of Mel-Frequency Cepstral Coefficients (MFCCs). This project compares the performance
@@ -321,6 +433,12 @@
         <div class="card card-split">
             <div>
                 <h2>Capstone Project: Bipedal Locomotion using Reinforcement Learning</h2>
+                <ul class="tags">
+                    <li>Reinforcement Learning</li>
+                    <li>Unity</li>
+                    <li>ML-Agents</li>
+                    <li>PPO</li>
+                </ul>
                 <p>
                     This research explores the implementation of a reinforcement learning framework using the
                     Unity engine and ML-Agents Toolkit to train a bipedal humanoid using a reward function and
@@ -337,6 +455,9 @@
     <section class="panel" id="music">
         <div class="card">
             <h2>Myths (EP)</h2>
+            <ul class="tags">
+                <li>Electronic Music</li>
+            </ul>
             <p>
                 My first EP, made during the final semester of senior year of high school (2022).
                 It's a collection of tracks ranging from EDM to dubstep.
@@ -344,13 +465,13 @@
             <a href="https://youtube.com/playlist?list=PLGr8VP3pqVwI55nI88WAr2feB1mn14qXl&si=SHMpyDiLP261O2rq" target="_blank" class="pdf-link">Listen on YouTube &rarr;</a>
         </div>
         <div class="card">
-            <p class="placeholder">// more music projects coming soon</p>
+            <p class="placeholder">// more music projects coming soon!</p>
         </div>
     </section>
 
     <section class="panel" id="gamedev">
         <div class="card">
-            <p class="placeholder">// more game development projects coming soon</p>
+            <p class="placeholder">// more game development projects coming soon!</p>
         </div>
     </section>
 
@@ -391,6 +512,23 @@
             </div>
         </div>
     </section>
+
+    <section class="panel" id="about">
+        <div class="card">
+            <p class="placeholder">// about me coming soon!</p>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <span>Last updated <time id="last-updated"></time></span>
+        <div class="footer-settings">
+            <button type="button" id="settings-toggle" aria-expanded="false" aria-controls="settings-panel">Settings</button>
+            <div class="settings-panel" id="settings-panel" hidden>
+                <label>Light mode <input type="checkbox" id="setting-light"></label>
+                <label>Pause background <input type="checkbox" id="setting-pause"></label>
+            </div>
+        </div>
+    </footer>
 
 </main>
 
@@ -541,6 +679,12 @@
             }
             let dpr = Math.min(window.devicePixelRatio || 1, 2);
             let mouse = { x: -9999, y: -9999 };
+            const darkDot = [227, 230, 239];
+            const lightDot = [58, 62, 74];
+            let clock = 0;
+            let lastFrame = null;
+            let motionPaused = false;
+            window.setBackgroundPaused = paused => { motionPaused = paused; };
 
             function resize() {
                 dotSpacing = window.innerWidth < 700 ? 26 : 18;
@@ -576,7 +720,11 @@
                 return baseline + waveShape(u, baseline, time) * waveEnv(baseline, time) * waveAmplitude * reach;
             }
 
-            function draw(time) {
+            function draw(now) {
+                if (lastFrame !== null && !motionPaused) clock += now - lastFrame;
+                lastFrame = now;
+                const time = clock;
+                const dotBase = document.documentElement.dataset.theme === 'light' ? lightDot : darkDot;
                 const w = window.innerWidth;
                 const h = window.innerHeight;
                 ctx.clearRect(0, 0, w, h);
@@ -609,10 +757,10 @@
                         const eased = t * t;
                         const [waveCol, waveMix] = colorWave(u, v, time);
                         const baseCol = waveCol ? [
-                            227 + (waveCol[0] - 227) * waveMix,
-                            230 + (waveCol[1] - 230) * waveMix,
-                            239 + (waveCol[2] - 239) * waveMix,
-                        ] : [227, 230, 239];
+                            dotBase[0] + (waveCol[0] - dotBase[0]) * waveMix,
+                            dotBase[1] + (waveCol[1] - dotBase[1]) * waveMix,
+                            dotBase[2] + (waveCol[2] - dotBase[2]) * waveMix,
+                        ] : dotBase;
 
                         const edge = Math.min(1, Math.abs((Xt + xShift) * rowScale) / cx);
                         const phase = wavePhase(u, v, time);
@@ -683,6 +831,54 @@
 
             resize();
             requestAnimationFrame(draw);
+        })();
+
+        (() => {
+            const updated = new Date(document.lastModified);
+            const stamp = document.getElementById('last-updated');
+            stamp.dateTime = updated.toISOString().slice(0, 10);
+            stamp.textContent = updated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            const read = key => { try { return localStorage.getItem(key); } catch (e) { return null; } };
+            const save = (key, value) => { try { localStorage.setItem(key, value); } catch (e) {} };
+
+            const toggle = document.getElementById('settings-toggle');
+            const panel = document.getElementById('settings-panel');
+            const lightBox = document.getElementById('setting-light');
+            const pauseBox = document.getElementById('setting-pause');
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+            function setPanel(open) {
+                panel.hidden = !open;
+                toggle.setAttribute('aria-expanded', String(open));
+            }
+            toggle.addEventListener('click', () => setPanel(panel.hidden));
+            document.addEventListener('click', e => {
+                if (!panel.hidden && !e.target.closest('.footer-settings')) setPanel(false);
+            });
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') setPanel(false);
+            });
+
+            lightBox.checked = document.documentElement.dataset.theme === 'light';
+            lightBox.addEventListener('change', () => {
+                if (lightBox.checked) document.documentElement.dataset.theme = 'light';
+                else delete document.documentElement.dataset.theme;
+                save('se-theme', lightBox.checked ? 'light' : 'dark');
+            });
+
+            const savedPause = read('se-paused');
+            pauseBox.checked = savedPause !== null ? savedPause === '1' : reduceMotion.matches;
+            window.setBackgroundPaused(pauseBox.checked);
+            pauseBox.addEventListener('change', () => {
+                window.setBackgroundPaused(pauseBox.checked);
+                save('se-paused', pauseBox.checked ? '1' : '0');
+            });
+            reduceMotion.addEventListener('change', () => {
+                if (read('se-paused') !== null) return;
+                pauseBox.checked = reduceMotion.matches;
+                window.setBackgroundPaused(reduceMotion.matches);
+            });
         })();
     </script>
 
