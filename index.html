@@ -20,6 +20,7 @@
             --text: #e3e6ef;
             --text-muted: #abb9b9;
             --accent: #adb77e;
+            --accent-wash: rgba(173, 183, 126, 0.08);
             --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
         }
         * { box-sizing: border-box; }
@@ -68,6 +69,7 @@
             color: var(--text-muted);
             font-size: 1.15em;
             max-width: 56ch;
+            text-wrap: pretty;
             margin: 0 0 28px;
         }
         .socials {
@@ -99,7 +101,7 @@
         .socials a:hover {
             color: var(--accent);
             border-color: var(--accent);
-            background: rgba(173, 183, 126, 0.08);
+            background: var(--accent-wash);
         }
         nav.tabs {
             display: flex;
@@ -379,6 +381,7 @@
             --text: #3a3e4a;
             --text-muted: #626775;
             --accent: #5f6d3a;
+            --accent-wash: rgba(95, 109, 58, 0.08);
         }
     </style>
 </head>
@@ -392,7 +395,7 @@
         <p class="tagline">
             Hi, I'm Sam &mdash; a musician, game developer, and computer scientist interested in
             machine learning and integrated systems. I like making things: original music,
-            pixel art, and reinforcement learning systems, and more!
+            pixel art, reinforcement learning systems, and&nbsp;more!
         </p>
         <div class="socials">
             <a href="resume.pdf" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L17.5 8H14V4.5zM8 12h8v1.6H8V12zm0 3.4h8V17H8v-1.6z"/></svg>Resume</a>
@@ -403,11 +406,11 @@
     </header>
 
     <nav class="tabs">
+        <button data-tab="about">About me</button>
         <button class="active" data-tab="academic">Academic projects</button>
         <button data-tab="music">Music projects</button>
         <button data-tab="gamedev">Game development projects</button>
         <button data-tab="extras">Extras</button>
-        <button data-tab="about">About me</button>
     </nav>
 
     <section class="panel active" id="academic">
