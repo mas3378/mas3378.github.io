@@ -172,6 +172,82 @@
         .pdf-link:hover {
             text-decoration: underline;
         }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        .gallery-slot {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 4px;
+            aspect-ratio: 1 / 1;
+        }
+        .gallery-slot .gallery-item {
+            border-radius: 3px;
+        }
+        .gallery-item {
+            display: block;
+            width: 100%;
+            background: none;
+            padding: 0;
+            border: 1px solid var(--border-strong);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .gallery-item.gallery-featured {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        .gallery img {
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            transition: transform 0.15s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 12, 0.9);
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            z-index: 50;
+        }
+        .lightbox.open {
+            display: flex;
+        }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 6px;
+            border: 1px solid var(--border-strong);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            background: none;
+            border: 1px solid var(--border-strong);
+            color: var(--text);
+            font-size: 1.4em;
+            line-height: 1;
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .lightbox-close:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
         .placeholder {
             color: var(--text-muted);
             font-family: var(--mono);
@@ -255,11 +331,48 @@
 
     <section class="panel" id="extras">
         <div class="card">
-            <p class="placeholder">// other creative stuff coming soon</p>
+            <h2>Pixel art</h2>
+            <p>D&amp;D characters and game sprites I've made!</p>
+            <div class="gallery">
+                <button type="button" class="gallery-item" data-src="images/pixel-art/Caelum3.png" data-alt="Pixel art: Caelum"><img src="images/pixel-art/Caelum3.png" alt="Pixel art: Caelum" loading="lazy"></button>
+                <button type="button" class="gallery-item gallery-featured" data-src="images/pixel-art/CastleFull.png" data-alt="Pixel art: Castle"><img src="images/pixel-art/CastleFull.png" alt="Pixel art: Castle" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/pixel-art/HagCharacterYeah_1.png" data-alt="Pixel art: hag character"><img src="images/pixel-art/HagCharacterYeah_1.png" alt="Pixel art: hag character" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/pixel-art/Marlowe.png" data-alt="Pixel art: Marlowe"><img src="images/pixel-art/Marlowe.png" alt="Pixel art: Marlowe" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/pixel-art/Seraphine_1.png" data-alt="Pixel art: Seraphine"><img src="images/pixel-art/Seraphine_1.png" alt="Pixel art: Seraphine" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/pixel-art/VyallUpdate_1.png" data-alt="Pixel art: Vyall"><img src="images/pixel-art/VyallUpdate_1.png" alt="Pixel art: Vyall" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/pixel-art/ArashiArt_2_4.png" data-alt="Pixel art: Arashi"><img src="images/pixel-art/ArashiArt_2_4.png" alt="Pixel art: Arashi" loading="lazy"></button>
+
+                <div class="gallery-slot">
+                    <button type="button" class="gallery-item" data-src="images/pixel-art/anchor.png" data-alt="Pixel art: Anchor"><img src="images/pixel-art/anchor.png" alt="Pixel art: Anchor" loading="lazy"></button>
+                    <button type="button" class="gallery-item" data-src="images/pixel-art/arashi.png" data-alt="Pixel art: Arashi icon"><img src="images/pixel-art/arashi.png" alt="Pixel art: Arashi icon" loading="lazy"></button>
+                    <button type="button" class="gallery-item" data-src="images/pixel-art/cat.png" data-alt="Pixel art: Cat"><img src="images/pixel-art/cat.png" alt="Pixel art: Cat" loading="lazy"></button>
+                    <button type="button" class="gallery-item" data-src="images/pixel-art/cecilia.png" data-alt="Pixel art: Cecilia"><img src="images/pixel-art/cecilia.png" alt="Pixel art: Cecilia" loading="lazy"></button>
+                </div>
+                <div class="gallery-slot">
+                    <button type="button" class="gallery-item" data-src="images/pixel-art/dragoon.png" data-alt="Pixel art: Dragoon"><img src="images/pixel-art/dragoon.png" alt="Pixel art: Dragoon" loading="lazy"></button>
+                    <button type="button" class="gallery-item" data-src="images/pixel-art/edward.png" data-alt="Pixel art: Edward"><img src="images/pixel-art/edward.png" alt="Pixel art: Edward" loading="lazy"></button>
+                    <button type="button" class="gallery-item" data-src="images/pixel-art/fable.png" data-alt="Pixel art: Fable"><img src="images/pixel-art/fable.png" alt="Pixel art: Fable" loading="lazy"></button>
+                    <button type="button" class="gallery-item" data-src="images/pixel-art/tobMC_run_right.gif" data-alt="Game sprite: running animation"><img src="images/pixel-art/tobMC_run_right.gif" alt="Game sprite: running animation" loading="lazy"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Painted minis</h2>
+            <p>"Mini"-atures that I've painted!</p>
+            <div class="gallery">
+                <button type="button" class="gallery-item gallery-featured" data-src="images/painted-minis/Aspect_of_Tiamat.jpg" data-alt="Painted mini: Aspect of Tiamat"><img src="images/painted-minis/Aspect_of_Tiamat.jpg" alt="Painted mini: Aspect of Tiamat" loading="lazy"></button>
+                <button type="button" class="gallery-item gallery-featured" data-src="images/painted-minis/Black_Dragon.png" data-alt="Painted mini: Black Dragon"><img src="images/painted-minis/Black_Dragon.png" alt="Painted mini: Black Dragon" loading="lazy"></button>
+            </div>
         </div>
     </section>
 
 </main>
+
+    <div class="lightbox" id="lightbox">
+        <button type="button" class="lightbox-close" aria-label="Close">&times;</button>
+        <img id="lightbox-img" src="" alt="">
+    </div>
 
     <script>
         const buttons = document.querySelectorAll('nav.tabs button');
@@ -271,6 +384,27 @@
                 btn.classList.add('active');
                 document.getElementById(btn.dataset.tab).classList.add('active');
             });
+        });
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', () => {
+                lightboxImg.src = item.dataset.src;
+                lightboxImg.alt = item.dataset.alt;
+                lightbox.classList.add('open');
+            });
+        });
+        function closeLightbox() {
+            lightbox.classList.remove('open');
+            lightboxImg.src = '';
+        }
+        lightbox.addEventListener('click', e => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeLightbox();
         });
     </script>
 
