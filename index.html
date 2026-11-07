@@ -45,6 +45,13 @@
             font-style: normal;
             font-display: swap;
         }
+        @font-face {
+            font-family: "Newsreader";
+            src: url("fonts/Newsreader-Variable.woff2") format("woff2");
+            font-weight: 400 600;
+            font-style: normal;
+            font-display: swap;
+        }
         :root {
             --bg: #17181d;
             --surface: #3a3e4a;
@@ -59,7 +66,8 @@
         }
         * { box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Newsreader", Georgia, "Times New Roman", serif;
+            font-size: 18px;
             margin: 0;
             padding: 0;
             line-height: 1.6;
@@ -68,9 +76,8 @@
         }
         #dot-bg {
             position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
+            top: 0;
+            left: 0;
             z-index: -1;
             pointer-events: none;
             display: block;
@@ -196,7 +203,32 @@
             background: var(--border);
             border: 1px solid var(--border);
         }
+        #academic.panel.active {
+            display: block;
+            background: none;
+            border: 0;
+        }
+        .panel-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+        .intro-card {
+            margin: 28px 0 36px;
+        }
+        .intro-card p {
+            margin: 0;
+        }
+        .comment-block {
+            overflow: hidden;
+        }
+        .comment-block.wrapped {
+            white-space: pre;
+        }
         .card {
+            min-width: 0;
             background: var(--surface);
             padding: 28px 30px;
             transition: background 0.15s ease;
@@ -220,14 +252,52 @@
             border-radius: 6px;
             border: 1px solid var(--border-strong);
         }
+        .simple-frame {
+            align-self: flex-start;
+            position: relative;
+            padding: 0;
+            margin: 3px;
+            border: 3px solid var(--text);
+            border-radius: 0;
+            background: none;
+        }
+        .simple-frame::after {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            pointer-events: none;
+            background:
+                linear-gradient(var(--text), var(--text)) top left / 13px 6px no-repeat,
+                linear-gradient(var(--text), var(--text)) top left / 6px 13px no-repeat,
+                linear-gradient(var(--text), var(--text)) top right / 13px 6px no-repeat,
+                linear-gradient(var(--text), var(--text)) top right / 6px 13px no-repeat,
+                linear-gradient(var(--text), var(--text)) bottom left / 13px 6px no-repeat,
+                linear-gradient(var(--text), var(--text)) bottom left / 6px 13px no-repeat,
+                linear-gradient(var(--text), var(--text)) bottom right / 13px 6px no-repeat,
+                linear-gradient(var(--text), var(--text)) bottom right / 6px 13px no-repeat;
+        }
+        .card-split > .simple-frame {
+            flex: 0 0 220px;
+            width: 220px;
+            max-width: 40%;
+        }
+        .simple-frame img {
+            display: block;
+            width: 100%;
+        }
         @media (max-width: 640px) {
             .card-split {
                 flex-direction: column;
                 align-items: stretch;
             }
-            .card-image {
+            .card-image,
+            .card-split > .simple-frame {
                 width: 100%;
                 max-width: none;
+                flex: 0 0 auto;
+            }
+            .gallery {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
             .gallery-featured {
                 order: -1;
@@ -282,6 +352,7 @@
             display: none;
         }
         .about-row {
+            clear: right;
             display: flex;
             align-items: center;
             gap: 24px;
@@ -304,39 +375,44 @@
             clear: both;
         }
         @media (max-width: 640px) {
-            .about-photo-wrap,
-            .about-row .about-photo-left-wrap {
+            .about-photo-wrap {
                 display: none;
             }
             .about-pair {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 24px;
+                display: block;
+                text-align: center;
                 margin: 8px 0 24px;
             }
             .about-pair .framed {
-                display: block;
-                width: auto;
-            }
-            .about-pair img {
-                width: auto;
-                height: 150px;
-            }
-            .about-photo-wrap {
-                float: none;
-                width: calc(100% - 12px);
-                max-width: 150px;
-                margin: 8px 6px 22px;
+                display: inline-block;
+                width: 170px;
             }
             .about-row {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 14px;
+                display: grid;
+                grid-template-columns: 110px minmax(0, 1fr);
+                column-gap: 20px;
+                row-gap: 0;
+                align-items: center;
+                margin-bottom: 18px;
             }
-            .about-photo-left-wrap {
-                width: calc(100% - 12px);
-                max-width: 120px;
+            .about-row-text {
+                display: contents;
+            }
+            .about-row .about-photo-left-wrap {
+                display: block;
+                width: 110px;
+                margin: 7px 0 7px 6px;
+                grid-column: 1;
+                grid-row: 1;
+            }
+            .about-row-text p:first-child {
+                grid-column: 2;
+                grid-row: 1;
+            }
+            .about-row-text p + p {
+                grid-column: 1 / -1;
+                grid-row: 2;
+                margin-top: 16px;
             }
         }
         .about p.greeting {
@@ -543,7 +619,7 @@
         .site-footer {
             position: relative;
             margin-top: 48px;
-            padding-top: 18px;
+            padding-top: 34px;
             border-top: 1px solid var(--border);
             display: flex;
             flex-wrap: wrap;
@@ -560,55 +636,59 @@
         .site-footer a:hover {
             color: var(--accent);
         }
-        .footer-settings {
+        .footer-toggles {
             margin-left: auto;
-            position: relative;
-        }
-        .footer-settings > button {
-            font: inherit;
-            letter-spacing: inherit;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            background: none;
-            border: 1px solid var(--border-strong);
-            border-radius: 4px;
-            padding: 6px 12px;
-            cursor: pointer;
-        }
-        .footer-settings > button:hover,
-        .footer-settings > button[aria-expanded="true"] {
-            color: var(--accent);
-            border-color: var(--accent);
-        }
-        .settings-panel {
-            position: absolute;
-            right: 0;
-            bottom: calc(100% + 8px);
-            min-width: 220px;
-            background: var(--surface);
-            border: 1px solid var(--border-strong);
-            border-radius: 6px;
-            padding: 12px 14px;
-            display: grid;
-            gap: 10px;
-            z-index: 5;
-        }
-        .settings-panel[hidden] {
-            display: none;
-        }
-        .settings-panel label {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            color: var(--text);
-            cursor: pointer;
+            flex-wrap: wrap;
+            gap: 10px 22px;
         }
-        .settings-panel input {
-            accent-color: var(--accent);
-            width: 16px;
-            height: 16px;
+        .switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
             cursor: pointer;
+            text-transform: uppercase;
+            user-select: none;
+        }
+        .switch:hover {
+            color: var(--accent);
+        }
+        .switch input {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+        }
+        .switch .track {
+            position: relative;
+            flex: none;
+            width: 30px;
+            height: 16px;
+            border: 1px solid var(--border-strong);
+            border-radius: 2px;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .switch .track::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 10px;
+            height: 10px;
+            background: var(--text-muted);
+            transition: transform 0.15s, background 0.15s;
+        }
+        .switch input:checked + .track {
+            border-color: var(--accent);
+            background: var(--accent-wash);
+        }
+        .switch input:checked + .track::after {
+            transform: translateX(14px);
+            background: var(--accent);
+        }
+        .switch input:focus-visible + .track {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
         :root[data-theme="light"] {
             --bg: #e3e6ef;
@@ -628,12 +708,12 @@
 <main>
 
     <header class="hero">
-        <p class="eyebrow">// machine learning &middot; music &middot; game development</p>
+        <p class="eyebrow">// currently developing: descent</p>
         <h1>Sam Edwards<svg class="mascot" viewBox="3 8 39 19" role="img" aria-label="Pixel art dragon"><defs><filter id="dragon-tint" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0.8 0 0 0 0.0902  0 0.8078 0 0 0.0941  0 0 0.8235 0 0.1137  0 0 0 1 0"/></filter><filter id="dragon-flip" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="-0.6627 0 0 0 0.8902  0 -0.6588 0 0 0.9020  0 0 -0.6471 0 0.9373  0 0 0 1 0"/></filter></defs><image href="images/dragon.gif?v=3" width="48" height="32" image-rendering="pixelated"/></svg></h1>
         <p class="tagline">
-            Hi, I'm Sam &mdash; a musician, game developer, and computer scientist interested in
-            machine learning and integrated systems. I like making things: original music,
-            pixel art, reinforcement learning systems, and&nbsp;more!
+            Hi, I'm Sam, a musician, game developer, and computer scientist interested in
+            machine learning and integrated systems. I like making things from original music
+            and pixel art to video games and ML&nbsp;systems.
         </p>
         <div class="socials">
             <a href="resume.pdf" target="_blank"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 2.5L17.5 8H14V4.5zM8 12h8v1.6H8V12zm0 3.4h8V17H8v-1.6z"/></svg>Resume</a>
@@ -652,6 +732,7 @@
     </nav>
 
     <section class="panel" id="academic">
+        <div class="panel-grid">
         <div class="card">
             <h2>Music Genre Classification using Machine Learning</h2>
             <ul class="tags">
@@ -689,7 +770,10 @@
                 </p>
                 <a href="RL_Capstone_SOTF.pdf" target="_blank" class="pdf-link">Read the paper (PDF) &rarr;</a>
             </div>
-            <img src="images/bipedal-capstone.png" alt="Bipedal humanoid rigged with a bone and collider skeleton in the Unity editor" class="card-image">
+            <div class="simple-frame card-image">
+                <img src="images/bipedal-capstone.png" alt="Bipedal humanoid rigged with a bone and collider skeleton in the Unity editor">
+            </div>
+        </div>
         </div>
     </section>
 
@@ -706,13 +790,13 @@
             <a href="https://youtube.com/playlist?list=PLGr8VP3pqVwI55nI88WAr2feB1mn14qXl&si=SHMpyDiLP261O2rq" target="_blank" class="pdf-link">Listen on YouTube &rarr;</a>
         </div>
         <div class="card">
-            <p class="placeholder">// more music projects coming soon!</p>
+            <p class="placeholder comment-block">// more music projects coming soon!</p>
         </div>
     </section>
 
     <section class="panel" id="gamedev">
         <div class="card">
-            <p class="placeholder">// more game development projects coming soon!</p>
+            <p class="placeholder comment-block">// more game development projects coming soon!</p>
         </div>
     </section>
 
@@ -759,24 +843,18 @@
             <span class="framed about-photo-wrap"><img class="about-photo" src="images/sam.jpg" alt="Photo of Sam Edwards smiling, with curly shoulder-length hair and glasses, in a dark quarter-zip sweater" width="280" height="308"></span>
             <p class="greeting"><span class="hello">Hello!<span class="sparkles" aria-hidden="true"></span></span></p>
             <p>
-                I'm Sam, a computer scientist and data engineer at Collective Measures in
+                My name is Sam, I'm a computer scientist and data engineer at Collective Measures in
                 Minneapolis. I graduated magna cum laude from Saint John's University in 2026 with a
                 B.A. in computer science.
             </p>
+            <div class="about-pair">
+                <span class="framed"><img src="images/sam.jpg" alt="Photo of Sam Edwards smiling, with curly shoulder-length hair and glasses, in a dark quarter-zip sweater"></span>
+            </div>
             <p>
                 Outside of work, I love making and playing video games, storytelling, D&amp;D, machine
                 and reinforcement learning, robotics, art, and composing and producing electronic and
                 orchestral music. And dragons, if you hadn't guessed.
             </p>
-            <p>
-                I've trained digital bipedal humanoids to stand and walk, programmed self-driving RC
-                cars using computer vision, and built procedural game generation in a few different
-                programs.
-            </p>
-            <div class="about-pair">
-                <span class="framed"><img src="images/sam.jpg" alt="Photo of Sam Edwards smiling, with curly shoulder-length hair and glasses, in a dark quarter-zip sweater"></span>
-                <span class="framed"><img src="images/sam-trombone.jpg?v=6" alt="Sam playing in a concert band, holding a bass trombone"></span>
-            </div>
             <div class="about-row">
                 <span class="framed about-photo-left-wrap"><img class="about-photo-left" src="images/sam-trombone.jpg?v=6" alt="Sam playing in a concert band, holding a bass trombone" width="225" height="357"></span>
                 <div class="about-row-text">
@@ -786,9 +864,10 @@
                 decade. I love to play D&amp;D with friends, as both game master and player.
                 </p>
                     <p>
-                Right now, I'm working with a group of friends on Descent, my spin on a roguelike with
-                heavy themes of corruption and divinity, where the player explores a lost ancient
-                civilization.
+                Right now, I'm working with a group of friends on a new video game called Descent, my spin on a roguelike with
+                heavy themes of corruption and divinity. The player explores a lost ancient
+                civilization to uncover the secrets of a forgotten religion, but ends up finding
+                much more in the depths than they bargained for&hellip;
                     </p>
                 </div>
             </div>
@@ -806,12 +885,9 @@
         <span class="pet-eye" aria-hidden="true"></span>
         <a href="mailto:samedwardscsci@gmail.com">samedwardscsci@gmail.com</a>
         <span>Last updated <time id="last-updated"></time></span>
-        <div class="footer-settings">
-            <button type="button" id="settings-toggle" aria-expanded="false" aria-controls="settings-panel">Settings</button>
-            <div class="settings-panel" id="settings-panel" hidden>
-                <label>Light mode <input type="checkbox" id="setting-light"></label>
-                <label>Pause background <input type="checkbox" id="setting-pause"></label>
-            </div>
+        <div class="footer-toggles">
+            <label class="switch"><input type="checkbox" role="switch" id="setting-light"><span class="track" aria-hidden="true"></span>Light mode</label>
+            <label class="switch"><input type="checkbox" role="switch" id="setting-pause"><span class="track" aria-hidden="true"></span>Pause background</label>
         </div>
     </footer>
 
@@ -936,7 +1012,7 @@
             let pageScroll = window.scrollY;
             const textDim = 0.25;
             const textFade = 14;
-            const textSelector = '.eyebrow, header.hero h1, .tagline, .socials a, nav.tabs button';
+            const textSelector = '.eyebrow, header.hero h1, .tagline, .socials a, nav.tabs button, .comment-block';
             let textRects = [];
 
             function updateTextRects() {
@@ -944,6 +1020,9 @@
                 document.querySelectorAll(textSelector).forEach(el => {
                     if (el.matches('a, button')) {
                         rects.push(el.getBoundingClientRect());
+                    } else if (el.matches('.comment-block')) {
+                        const b = el.getBoundingClientRect();
+                        rects.push({ left: b.left - 8, right: b.right + 8, top: b.top - 8, bottom: b.bottom + 8, width: b.width, fade: 44, dim: 0.03 });
                     } else {
                         const range = document.createRange();
                         range.selectNodeContents(el);
@@ -959,7 +1038,8 @@
                     const ox = Math.max(r.left - x, 0, x - r.right);
                     const oy = Math.max(r.top - y, 0, y - r.bottom);
                     const out = Math.hypot(ox, oy);
-                    if (out < textFade) shade = Math.min(shade, textDim + (1 - textDim) * (out / textFade));
+                    const fade = r.fade || textFade, dim = r.dim === undefined ? textDim : r.dim;
+                    if (out < fade) shade = Math.min(shade, dim + (1 - dim) * (out / fade));
                 }
                 return shade;
             }
@@ -972,13 +1052,25 @@
             let motionPaused = false;
             window.setBackgroundPaused = paused => { motionPaused = paused; };
 
+            // On touch devices the browser toolbars collapse and expand while scrolling,
+            // which changes innerHeight. Keep the canvas at the tallest height seen for the
+            // current width so the background never resizes (and jumps) mid-scroll.
+            const touchDevice = window.matchMedia('(pointer: coarse)').matches;
+            let viewW = 0;
+            let viewH = 0;
+
             function resize() {
-                dotSpacing = window.innerWidth < 700 ? 26 : 18;
+                const w = window.innerWidth;
+                const h = window.innerHeight;
+                if (touchDevice && w === viewW && viewH && h <= viewH) return;
+                viewH = touchDevice && w === viewW ? Math.max(viewH, h) : h;
+                viewW = w;
+                dotSpacing = viewW < 700 ? 26 : 18;
                 dpr = Math.min(window.devicePixelRatio || 1, 2);
-                canvas.width = window.innerWidth * dpr;
-                canvas.height = window.innerHeight * dpr;
-                canvas.style.width = window.innerWidth + 'px';
-                canvas.style.height = window.innerHeight + 'px';
+                canvas.width = viewW * dpr;
+                canvas.height = viewH * dpr;
+                canvas.style.width = viewW + 'px';
+                canvas.style.height = viewH + 'px';
                 ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
             }
 
@@ -1011,8 +1103,8 @@
                 lastFrame = now;
                 const time = clock;
                 const dotBase = document.documentElement.dataset.theme === 'light' ? lightDot : darkDot;
-                const w = window.innerWidth;
-                const h = window.innerHeight;
+                const w = viewW;
+                const h = viewH;
                 ctx.clearRect(0, 0, w, h);
                 const cx = w / 2;
                 const horizonY = -h * horizonDepth;
@@ -1020,7 +1112,10 @@
                 const nearDist = focal;
                 const farDist = (focal * focal) / -horizonY;
                 const farScale = focal / farDist;
-                pageScroll += (window.scrollY - pageScroll) * 0.08;
+                // Clamp so iOS rubber-band overscroll doesn't whip the background around.
+                const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+                const scrollNow = Math.min(Math.max(window.scrollY, 0), maxScroll);
+                pageScroll += (scrollNow - pageScroll) * 0.08;
                 const zShift = time * scrollSpeed - pageScroll * scrollParallax;
                 const xShift = time * driftSpeed;
                 const tStart = Math.floor((nearDist - dotSpacing * 2 + zShift) / dotSpacing) * dotSpacing;
@@ -1262,6 +1357,37 @@
         })();
 
         (() => {
+            document.querySelectorAll('.comment-block').forEach(el => {
+                const text = el.textContent.replace(/^\s*\/\/\s*/, '').replace(/\s+/g, ' ').trim();
+                const probe = document.createElement('span');
+                probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:' + getComputedStyle(el).font;
+                probe.textContent = '0'.repeat(40);
+                document.body.appendChild(probe);
+                const charWidth = probe.getBoundingClientRect().width / 40;
+                probe.remove();
+                let lastCols = 0;
+                function render() {
+                    const width = el.parentElement.clientWidth - parseFloat(getComputedStyle(el.parentElement).paddingLeft) - parseFloat(getComputedStyle(el.parentElement).paddingRight);
+                    if (width <= 0) return;
+                    const cols = Math.max(24, Math.floor(width / charWidth) - 3);
+                    if (cols === lastCols) return;
+                    lastCols = cols;
+                    const lines = [];
+                    let line = '';
+                    text.split(' ').forEach(word => {
+                        if (line && (line + ' ' + word).length > cols) { lines.push(line); line = word; }
+                        else line = line ? line + ' ' + word : word;
+                    });
+                    if (line) lines.push(line);
+                    el.textContent = lines.map(l => '// ' + l).join('\n');
+                    el.classList.add('wrapped');
+                }
+                new ResizeObserver(render).observe(el.parentElement);
+                render();
+            });
+        })();
+
+        (() => {
             const updated = new Date(document.lastModified);
             const stamp = document.getElementById('last-updated');
             stamp.dateTime = updated.toISOString().slice(0, 10);
@@ -1270,23 +1396,9 @@
             const read = key => { try { return localStorage.getItem(key); } catch (e) { return null; } };
             const save = (key, value) => { try { localStorage.setItem(key, value); } catch (e) {} };
 
-            const toggle = document.getElementById('settings-toggle');
-            const panel = document.getElementById('settings-panel');
             const lightBox = document.getElementById('setting-light');
             const pauseBox = document.getElementById('setting-pause');
             const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-            function setPanel(open) {
-                panel.hidden = !open;
-                toggle.setAttribute('aria-expanded', String(open));
-            }
-            toggle.addEventListener('click', () => setPanel(panel.hidden));
-            document.addEventListener('click', e => {
-                if (!panel.hidden && !e.target.closest('.footer-settings')) setPanel(false);
-            });
-            document.addEventListener('keydown', e => {
-                if (e.key === 'Escape') setPanel(false);
-            });
 
             lightBox.checked = document.documentElement.dataset.theme === 'light';
             lightBox.addEventListener('change', () => {
