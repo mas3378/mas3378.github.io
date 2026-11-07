@@ -390,7 +390,7 @@
             .about-row {
                 display: grid;
                 grid-template-columns: 110px minmax(0, 1fr);
-                column-gap: 20px;
+                column-gap: 32px;
                 row-gap: 0;
                 align-items: center;
                 margin-bottom: 18px;
@@ -568,6 +568,21 @@
             border-radius: 3px;
             padding: 3px 8px;
         }
+        .card h2:has(.year) {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .card h2 .year {
+            flex: none;
+            font-family: var(--mono);
+            font-size: 0.6em;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
         .footer-pet {
             position: absolute;
             right: 88px;
@@ -733,28 +748,9 @@
 
     <section class="panel" id="academic">
         <div class="panel-grid">
-        <div class="card">
-            <h2>Music Genre Classification using Machine Learning</h2>
-            <ul class="tags">
-                <li>Machine Learning</li>
-                <li>Audio</li>
-                <li>MFCCs</li>
-                <li>Random Forest</li>
-                <li>CNN</li>
-                <li>LSTM</li>
-            </ul>
-            <p>
-                I explored a simplified approach to classifying music genres using the means and variances
-                of Mel-Frequency Cepstral Coefficients (MFCCs). This project compares the performance
-                of Random Forest Classifiers, CNNs, and LSTMs on a dataset of Rock, Electronic, Folk,
-                and Classical music.
-            </p>
-            <a href="MLPaperEdwards.pdf" target="_blank" class="pdf-link">Read the paper (PDF) &rarr;</a>
-        </div>
-
         <div class="card card-split">
             <div>
-                <h2>Capstone Project: Bipedal Locomotion using Reinforcement Learning</h2>
+                <h2>Capstone Project: Bipedal Locomotion using Reinforcement Learning<span class="year">Fall 2025</span></h2>
                 <ul class="tags">
                     <li>Reinforcement Learning</li>
                     <li>Unity</li>
@@ -774,17 +770,47 @@
                 <img src="images/bipedal-capstone.png" alt="Bipedal humanoid rigged with a bone and collider skeleton in the Unity editor">
             </div>
         </div>
+
+        <div class="card">
+            <h2>Music Genre Classification using Machine Learning<span class="year">Fall 2024</span></h2>
+            <ul class="tags">
+                <li>Machine Learning</li>
+                <li>Audio</li>
+                <li>MFCCs</li>
+                <li>Random Forest</li>
+                <li>CNN</li>
+                <li>LSTM</li>
+            </ul>
+            <p>
+                I explored a simplified approach to classifying music genres using the means and variances
+                of Mel-Frequency Cepstral Coefficients (MFCCs). This project compares the performance
+                of Random Forest Classifiers, CNNs, and LSTMs on a dataset of Rock, Electronic, Folk,
+                and Classical music.
+            </p>
+            <a href="MLPaperEdwards.pdf" target="_blank" class="pdf-link">Read the paper (PDF) &rarr;</a>
+        </div>
         </div>
     </section>
 
     <section class="panel" id="music">
         <div class="card">
-            <h2>Myths (EP)</h2>
+            <h2>Video Game Loops<span class="year">Spring 2024</span></h2>
+            <ul class="tags">
+                <li>Video Game Music</li>
+            </ul>
+            <p>
+                A small collection of video game music I made for several mini projects during a
+                video game design and development class.
+            </p>
+            <a href="https://youtube.com/playlist?list=PLWAPdzITNmQ4&si=BB6sI0UHzQ9lBEIB" target="_blank" class="pdf-link">Listen on YouTube &rarr;</a>
+        </div>
+        <div class="card">
+            <h2>Myths (EP)<span class="year">Spring 2022</span></h2>
             <ul class="tags">
                 <li>Electronic Music</li>
             </ul>
             <p>
-                My first EP, made during the final semester of senior year of high school (2022).
+                My first EP, made during the final semester of senior year of high school.
                 It's a collection of tracks ranging from EDM to dubstep.
             </p>
             <a href="https://youtube.com/playlist?list=PLGr8VP3pqVwI55nI88WAr2feB1mn14qXl&si=SHMpyDiLP261O2rq" target="_blank" class="pdf-link">Listen on YouTube &rarr;</a>
