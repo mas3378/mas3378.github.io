@@ -16,7 +16,7 @@
     <meta property="og:image:alt" content="Pixel art dragon above the name Sam Edwards">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://mas3378.github.io/images/preview.png">
-    <link rel="icon" href="favicon.svg?v=6" type="image/svg+xml">
+    <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
     <link rel="preload" href="fonts/Redaction50-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <script>
         try {
@@ -28,6 +28,20 @@
             font-family: "Redaction 50";
             src: url("fonts/Redaction50-Bold.woff2") format("woff2");
             font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Redaction 50";
+            src: url("fonts/Redaction50-Italic.woff2") format("woff2");
+            font-weight: 400;
+            font-style: italic;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Redaction 50";
+            src: url("fonts/Redaction50-Regular.woff2") format("woff2");
+            font-weight: 400;
             font-style: normal;
             font-display: swap;
         }
@@ -231,6 +245,138 @@
             margin: 0 0 18px;
             color: var(--text-muted);
         }
+        .about p {
+            max-width: 62ch;
+        }
+        .framed {
+            display: block;
+            position: relative;
+            line-height: 0;
+        }
+        .framed::after {
+            content: "";
+            position: absolute;
+            inset: -7px;
+            border: 28px solid transparent;
+            border-image: url("images/frame.png?v=5") 140 / 28px round;
+            image-rendering: pixelated;
+            pointer-events: none;
+        }
+        :root:not([data-theme="light"]) .framed::after {
+            filter: url(#dragon-tint);
+        }
+        :root[data-theme="light"] .framed::after {
+            filter: url(#dragon-flip);
+        }
+        .framed img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .about-photo-wrap {
+            float: right;
+            width: 240px;
+            margin: 6px 6px 22px 28px;
+        }
+        .about-pair {
+            display: none;
+        }
+        .about-row {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin: 0 0 18px;
+        }
+        .about-row p {
+            margin: 0;
+        }
+        .about-row-text p + p {
+            margin-top: 18px;
+        }
+        .about-photo-left-wrap {
+            flex: 0 0 auto;
+            width: 170px;
+            margin: 6px;
+        }
+        .about::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        @media (max-width: 640px) {
+            .about-photo-wrap,
+            .about-row .about-photo-left-wrap {
+                display: none;
+            }
+            .about-pair {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 24px;
+                margin: 8px 0 24px;
+            }
+            .about-pair .framed {
+                display: block;
+                width: auto;
+            }
+            .about-pair img {
+                width: auto;
+                height: 150px;
+            }
+            .about-photo-wrap {
+                float: none;
+                width: calc(100% - 12px);
+                max-width: 150px;
+                margin: 8px 6px 22px;
+            }
+            .about-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 14px;
+            }
+            .about-photo-left-wrap {
+                width: calc(100% - 12px);
+                max-width: 120px;
+            }
+        }
+        .about p.greeting {
+            font-family: "Redaction 50", Georgia, "Times New Roman", serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 2.1em;
+            line-height: 1.1;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+        .hello {
+            position: relative;
+            display: inline-block;
+        }
+        .sparkles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .sparkles img {
+            position: absolute;
+            image-rendering: pixelated;
+        }
+        :root:not([data-theme="light"]) .sparkles img {
+            filter: url(#dragon-tint);
+        }
+        :root[data-theme="light"] .sparkles img {
+            filter: url(#dragon-flip);
+        }
+        .about > p.wide {
+            max-width: none;
+        }
+        .about > p:last-child {
+            max-width: none;
+            margin-bottom: 0;
+        }
+        .card p a {
+            color: var(--accent);
+        }
         .pdf-link {
             display: inline-flex;
             align-items: center;
@@ -353,6 +499,40 @@
             margin-bottom: -28px;
             image-rendering: pixelated;
             pointer-events: none;
+        }
+        .pet-eye {
+            position: absolute;
+            right: 162px;
+            bottom: 100%;
+            margin-bottom: 4px;
+            width: 4px;
+            height: 2px;
+            background: #17181d;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .pet-eye.open {
+            opacity: 1;
+        }
+        :root[data-theme="light"] .pet-eye {
+            background: #e3e6ef;
+        }
+        .footer-people {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 100%;
+            height: 0;
+            pointer-events: none;
+        }
+        .footer-people .person {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 2px;
+            height: 4px;
+            background: linear-gradient(var(--text) 50%, var(--body, var(--accent)) 50%);
+            will-change: transform;
         }
         :root:not([data-theme="light"]) .footer-pet {
             filter: url(#dragon-tint);
@@ -575,13 +755,55 @@
     </section>
 
     <section class="panel active" id="about">
-        <div class="card">
-            <p class="placeholder">// about me coming soon!</p>
+        <div class="card about">
+            <span class="framed about-photo-wrap"><img class="about-photo" src="images/sam.jpg" alt="Photo of Sam Edwards smiling, with curly shoulder-length hair and glasses, in a dark quarter-zip sweater" width="280" height="308"></span>
+            <p class="greeting"><span class="hello">Hello!<span class="sparkles" aria-hidden="true"></span></span></p>
+            <p>
+                I'm Sam, a computer scientist and data engineer at Collective Measures in
+                Minneapolis. I graduated magna cum laude from Saint John's University in 2026 with a
+                B.A. in computer science.
+            </p>
+            <p>
+                Outside of work, I love making and playing video games, storytelling, D&amp;D, machine
+                and reinforcement learning, robotics, art, and composing and producing electronic and
+                orchestral music. And dragons, if you hadn't guessed.
+            </p>
+            <p>
+                I've trained digital bipedal humanoids to stand and walk, programmed self-driving RC
+                cars using computer vision, and built procedural game generation in a few different
+                programs.
+            </p>
+            <div class="about-pair">
+                <span class="framed"><img src="images/sam.jpg" alt="Photo of Sam Edwards smiling, with curly shoulder-length hair and glasses, in a dark quarter-zip sweater"></span>
+                <span class="framed"><img src="images/sam-trombone.jpg?v=6" alt="Sam playing in a concert band, holding a bass trombone"></span>
+            </div>
+            <div class="about-row">
+                <span class="framed about-photo-left-wrap"><img class="about-photo-left" src="images/sam-trombone.jpg?v=6" alt="Sam playing in a concert band, holding a bass trombone" width="225" height="357"></span>
+                <div class="about-row-text">
+                    <p>
+                I've played bass trombone for over 12 years in a couple of different wind ensembles
+                and jazz bands, and I swam competitive sprint freestyle and butterfly for nearly a
+                decade. I love to play D&amp;D with friends, as both game master and player.
+                </p>
+                    <p>
+                Right now, I'm working with a group of friends on Descent, my spin on a roguelike with
+                heavy themes of corruption and divinity, where the player explores a lost ancient
+                civilization.
+                    </p>
+                </div>
+            </div>
+            <p class="wide">
+                Looking ahead, I'm getting ready for graduate school to get more hands&#8209;on with
+                robotics and intelligent systems. If you'd like to get in touch, feel free to reach out through
+                <a href="mailto:samedwardscsci@gmail.com">email</a> or on
+                <a href="https://www.linkedin.com/in/samedwardscsci/" target="_blank">LinkedIn</a>!
+            </p>
         </div>
     </section>
 
     <footer class="site-footer">
         <img class="footer-pet" src="images/lizard.gif?v=3" alt="" width="96" height="64">
+        <span class="pet-eye" aria-hidden="true"></span>
         <a href="mailto:samedwardscsci@gmail.com">samedwardscsci@gmail.com</a>
         <span>Last updated <time id="last-updated"></time></span>
         <div class="footer-settings">
@@ -893,6 +1115,150 @@
 
             resize();
             requestAnimationFrame(draw);
+        })();
+
+        (() => {
+            const footer = document.querySelector('.site-footer');
+            const pet = footer.querySelector('.footer-pet');
+            const layer = document.createElement('div');
+            layer.className = 'footer-people';
+            layer.setAttribute('aria-hidden', 'true');
+            footer.appendChild(layer);
+
+            const bodyColors = ['var(--accent)', '#d4a5b0', '#a9b4e8'];
+            const people = bodyColors.map((color, i) => {
+                const el = document.createElement('i');
+                el.className = 'person';
+                el.style.setProperty('--body', color);
+                el.style.visibility = 'hidden';
+                layer.appendChild(el);
+                return { el, state: 'wait', t: 1.5 + i * 2.4 + Math.random() * 2, x: -8, hop: 0, gap: 28 + i * 24, speed: 20 + Math.random() * 8 };
+            });
+
+            const eye = footer.querySelector('.pet-eye');
+            let eyeTimer = null;
+            function openEye() {
+                eye.classList.add('open');
+                clearTimeout(eyeTimer);
+                eyeTimer = setTimeout(() => eye.classList.remove('open'), 1800);
+            }
+
+            let paused = false;
+            const wrapped = window.setBackgroundPaused;
+            window.setBackgroundPaused = value => {
+                wrapped(value);
+                paused = value;
+                layer.style.display = value ? 'none' : '';
+            };
+
+            function limit(p) {
+                const f = footer.getBoundingClientRect();
+                const q = pet.getBoundingClientRect();
+                return q.left - f.left + 10 - p.gap;
+            }
+
+            function update(p, dt) {
+                const el = p.el;
+                if (p.state === 'wait') {
+                    p.t -= dt;
+                    if (p.t <= 0 && limit(p) > 60) {
+                        p.state = 'walk';
+                        p.x = -8;
+                        el.style.visibility = 'visible';
+                    } else if (p.t <= 0) {
+                        p.t = 3;
+                    }
+                    return;
+                }
+                if (p.state === 'walk') {
+                    p.x += p.speed * dt;
+                    p.hop = Math.floor(p.x / 5) % 2 ? 2 : 0;
+                    if (p.x >= limit(p)) {
+                        p.x = limit(p);
+                        p.state = 'look';
+                        p.t = 1.2 + Math.random() * 1.6;
+                        p.hop = 0;
+                    }
+                } else if (p.state === 'look') {
+                    p.t -= dt;
+                    if (p.t <= 0) {
+                        p.state = 'startle';
+                        p.t = 0.28;
+                        p.hop = 4;
+                        openEye();
+                    }
+                } else if (p.state === 'startle') {
+                    p.t -= dt;
+                    if (p.t <= 0) {
+                        p.state = 'run';
+                        p.hop = 0;
+                    }
+                } else if (p.state === 'run') {
+                    p.x -= 150 * dt;
+                    p.hop = Math.floor(p.x / 8) % 2 ? 2 : 0;
+                    if (p.x <= -14) {
+                        p.state = 'wait';
+                        p.t = 4 + Math.random() * 6;
+                        el.style.visibility = 'hidden';
+                        return;
+                    }
+                }
+                el.style.transform = `translate(${p.x.toFixed(1)}px, ${-p.hop}px)`;
+            }
+
+            let last = null;
+            function frame(now) {
+                if (last !== null && !paused) {
+                    const dt = Math.min((now - last) / 1000, 0.1);
+                    people.forEach(p => update(p, dt));
+                }
+                last = now;
+                requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
+        })();
+
+        (() => {
+            const box = document.querySelector('.sparkles');
+            const spots = [
+                { left: '-22px', top: '-10px' },
+                { right: '-14px', top: '-16px' },
+                { right: '-30px', top: '12px' },
+                { left: '40%', top: '-24px' },
+                { left: '-14px', bottom: '-14px' },
+                { right: '14%', bottom: '-18px' },
+            ];
+            const scale = 2;
+            const showFor = 430;
+            const every = 820;
+            let last = -1;
+            let count = 0;
+
+            const wrapped = window.setBackgroundPaused;
+            window.setBackgroundPaused = value => {
+                wrapped(value);
+                box.style.display = value ? 'none' : '';
+            };
+
+            function showOne() {
+                if (document.hidden || box.style.display === 'none') return;
+                let i;
+                do { i = Math.floor(Math.random() * spots.length); } while (i === last);
+                last = i;
+                const img = document.createElement('img');
+                img.src = 'images/sparkle.gif?v=3&n=' + (count++);
+                img.alt = '';
+                img.width = 7 * scale;
+                img.height = 7 * scale;
+                ['left', 'right', 'top', 'bottom'].forEach(k => { if (spots[i][k]) img.style[k] = spots[i][k]; });
+                box.appendChild(img);
+                setTimeout(() => img.remove(), showFor);
+            }
+
+            setTimeout(() => {
+                showOne();
+                setInterval(showOne, every);
+            }, 600);
         })();
 
         (() => {
