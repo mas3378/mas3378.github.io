@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sam Edwards</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="fonts/Redaction50-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <script>
         try {
             if (localStorage.getItem('se-theme') === 'light') document.documentElement.dataset.theme = 'light';
         } catch (e) {}
     </script>
     <style>
+        @font-face {
+            font-family: "Redaction 50";
+            src: url("fonts/Redaction50-Bold.woff2") format("woff2");
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
         :root {
             --bg: #17181d;
             --surface: #3a3e4a;
@@ -59,11 +67,34 @@
             margin-bottom: 56px;
         }
         header.hero h1 {
+            font-family: "Redaction 50", Georgia, "Times New Roman", serif;
             font-size: clamp(2.4em, 6vw, 3.6em);
             font-weight: 700;
-            letter-spacing: -0.02em;
+            letter-spacing: 0;
             margin: 0 0 14px;
             line-height: 1.05;
+        }
+        header.hero h1 .mascot {
+            height: 0.8em;
+            width: auto;
+            margin-left: 0.35em;
+            vertical-align: -0.04em;
+            image-rendering: pixelated;
+        }
+        :root:not([data-theme="light"]) header.hero h1 .mascot image {
+            filter: url(#dragon-tint);
+        }
+        :root[data-theme="light"] header.hero h1 .mascot image {
+            filter: url(#dragon-flip);
+        }
+        @media (max-width: 480px) {
+            header.hero h1 {
+                font-size: 1.9em;
+            }
+            header.hero h1 .mascot {
+                height: 0.7em;
+                margin-left: 0.25em;
+            }
         }
         header.hero p.tagline {
             color: var(--text-muted);
@@ -303,7 +334,22 @@
             border-radius: 3px;
             padding: 3px 8px;
         }
+        .footer-pet {
+            position: absolute;
+            right: 88px;
+            bottom: 100%;
+            margin-bottom: -28px;
+            image-rendering: pixelated;
+            pointer-events: none;
+        }
+        :root:not([data-theme="light"]) .footer-pet {
+            filter: url(#dragon-tint);
+        }
+        :root[data-theme="light"] .footer-pet {
+            filter: url(#dragon-flip);
+        }
         .site-footer {
+            position: relative;
             margin-top: 48px;
             padding-top: 18px;
             border-top: 1px solid var(--border);
@@ -391,7 +437,7 @@
 
     <header class="hero">
         <p class="eyebrow">// machine learning &middot; music &middot; game development</p>
-        <h1>Sam Edwards</h1>
+        <h1>Sam Edwards<svg class="mascot" viewBox="3 8 39 19" role="img" aria-label="Pixel art dragon"><defs><filter id="dragon-tint" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="0.8 0 0 0 0.0902  0 0.8078 0 0 0.0941  0 0 0.8235 0 0.1137  0 0 0 1 0"/></filter><filter id="dragon-flip" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="-0.6627 0 0 0 0.8902  0 -0.6588 0 0 0.9020  0 0 -0.6471 0 0.9373  0 0 0 1 0"/></filter></defs><image href="images/dragon.gif?v=3" width="48" height="32" image-rendering="pixelated"/></svg></h1>
         <p class="tagline">
             Hi, I'm Sam &mdash; a musician, game developer, and computer scientist interested in
             machine learning and integrated systems. I like making things: original music,
@@ -523,6 +569,7 @@
     </section>
 
     <footer class="site-footer">
+        <img class="footer-pet" src="images/lizard.gif?v=3" alt="" width="96" height="64">
         <a href="mailto:samedwardscsci@gmail.com">samedwardscsci@gmail.com</a>
         <span>Last updated <time id="last-updated"></time></span>
         <div class="footer-settings">
@@ -592,7 +639,8 @@
             const dotSwing = 9;
             const edgeBoost = 1.2;
             const gridEvery = 5;
-            const gridBoost = 1.6;
+            const gridBoost = 2;
+            const gridSize = 1.125;
             const ridgeFalloff = lineSpacing * 0.45;
             const ridgeAlpha = 0.32;
             const baseAlpha = ridgeAlpha * 0.3;
@@ -788,7 +836,7 @@
                         let alpha = (baseAlpha + (ridgeAlpha - baseAlpha) * eased) * (0.6 + 0.4 * nearness)
                                   * (onGrid ? gridBoost : 1)
                                   * (1 + colorGlow * waveMix);
-                        let r = (baseR + (ridgeR - baseR) * eased) * scale;
+                        let r = (baseR + (ridgeR - baseR) * eased) * scale * (onGrid ? gridSize : 1);
 
                         const dx = mouse.x - drawX;
                         const dy = mouse.y - drawY;
@@ -809,11 +857,9 @@
                         const cg = Math.round(baseCol[1]);
                         const cb = Math.round(baseCol[2]);
 
-                        ctx.beginPath();
                         alpha = Math.min(alpha, 0.75) * textShade(drawX, drawY);
                         ctx.fillStyle = `rgba(${cr}, ${cg}, ${cb}, ${alpha.toFixed(3)})`;
-                        ctx.arc(drawX, drawY, r, 0, Math.PI * 2);
-                        ctx.fill();
+                        ctx.fillRect(drawX - r, drawY - r, r * 2, r * 2);
                     }
                 }
                 requestAnimationFrame(draw);
