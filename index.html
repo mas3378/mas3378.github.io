@@ -18,6 +18,8 @@
     <meta name="twitter:image" content="https://mas3378.github.io/images/preview.png">
     <link rel="icon" href="favicon.svg?v=7" type="image/svg+xml">
     <link rel="preload" href="fonts/Redaction50-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Redaction50-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Newsreader-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <script>
         try {
             if (localStorage.getItem('se-theme') === 'light') document.documentElement.dataset.theme = 'light';
@@ -827,8 +829,8 @@
             <h2>Painted minis</h2>
             <p>"Mini"-atures that I've painted!</p>
             <div class="gallery">
-                <button type="button" class="gallery-item gallery-featured" data-src="images/painted-minis/Aspect_of_Tiamat.jpg" data-alt="Painted mini: Aspect of Tiamat"><img src="images/painted-minis/Aspect_of_Tiamat.jpg" alt="Painted mini: Aspect of Tiamat" loading="lazy"></button>
-                <button type="button" class="gallery-item gallery-featured" data-src="images/painted-minis/Black_Dragon.png" data-alt="Painted mini: Black Dragon"><img src="images/painted-minis/Black_Dragon.png" alt="Painted mini: Black Dragon" loading="lazy"></button>
+                <button type="button" class="gallery-item gallery-featured" data-src="images/painted-minis/Aspect_of_Tiamat.jpg?v=2" data-alt="Painted mini: Aspect of Tiamat"><img src="images/painted-minis/Aspect_of_Tiamat.jpg?v=2" alt="Painted mini: Aspect of Tiamat" loading="lazy"></button>
+                <button type="button" class="gallery-item gallery-featured" data-src="images/painted-minis/Black_Dragon.jpg?v=2" data-alt="Painted mini: Black Dragon"><img src="images/painted-minis/Black_Dragon.jpg?v=2" alt="Painted mini: Black Dragon" loading="lazy"></button>
             </div>
         </div>
     </section>
@@ -931,7 +933,7 @@
             const ctx = canvas.getContext('2d');
             let dotSpacing = 18;
             const scrollSpeed = 0.006;
-            const driftSpeed = 0.003;
+            const driftSpeed = 0;
             const tilt = -0.25;
             const cosT = Math.cos(tilt);
             const sinT = Math.sin(tilt);
@@ -1093,7 +1095,15 @@
                 return baseline + waveShape(u, baseline, time) * waveEnv(baseline, time) * waveAmplitude * reach;
             }
 
+            // Phones and tablets only need 30 fps; it halves the battery cost of the canvas.
+            const frameInterval = touchDevice ? 1000 / 30 : 0;
+            let rafId = 0;
+
             function draw(now) {
+                if (frameInterval && lastFrame !== null && now - lastFrame < frameInterval - 2) {
+                    rafId = requestAnimationFrame(draw);
+                    return;
+                }
                 if (lastFrame !== null && !motionPaused) clock += now - lastFrame;
                 lastFrame = now;
                 const time = clock;
@@ -1186,8 +1196,17 @@
                         ctx.fillRect(drawX - r, drawY - r, r * 2, r * 2);
                     }
                 }
-                requestAnimationFrame(draw);
+                rafId = requestAnimationFrame(draw);
             }
+
+            // Stop drawing entirely while the tab is hidden, and resume without a time jump.
+            document.addEventListener('visibilitychange', () => {
+                cancelAnimationFrame(rafId);
+                if (!document.hidden) {
+                    lastFrame = null;
+                    rafId = requestAnimationFrame(draw);
+                }
+            });
 
             document.addEventListener('mousemove', e => {
                 mouse.x = e.clientX;
@@ -1200,11 +1219,11 @@
             window.addEventListener('resize', resize);
             window.addEventListener('resize', updateTextRects);
             window.addEventListener('scroll', updateTextRects, { passive: true });
-            setInterval(updateTextRects, 500);
+            setInterval(() => { if (!document.hidden) updateTextRects(); }, 500);
             updateTextRects();
 
             resize();
-            requestAnimationFrame(draw);
+            rafId = requestAnimationFrame(draw);
         })();
 
         (() => {
