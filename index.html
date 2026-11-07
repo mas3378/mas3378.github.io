@@ -252,49 +252,14 @@
             border-radius: 6px;
             border: 1px solid var(--border-strong);
         }
-        .simple-frame {
-            align-self: flex-start;
-            position: relative;
-            padding: 0;
-            margin: 3px;
-            border: 3px solid var(--text);
-            border-radius: 0;
-            background: none;
-        }
-        .simple-frame::after {
-            content: "";
-            position: absolute;
-            inset: -3px;
-            pointer-events: none;
-            background:
-                linear-gradient(var(--text), var(--text)) top left / 13px 6px no-repeat,
-                linear-gradient(var(--text), var(--text)) top left / 6px 13px no-repeat,
-                linear-gradient(var(--text), var(--text)) top right / 13px 6px no-repeat,
-                linear-gradient(var(--text), var(--text)) top right / 6px 13px no-repeat,
-                linear-gradient(var(--text), var(--text)) bottom left / 13px 6px no-repeat,
-                linear-gradient(var(--text), var(--text)) bottom left / 6px 13px no-repeat,
-                linear-gradient(var(--text), var(--text)) bottom right / 13px 6px no-repeat,
-                linear-gradient(var(--text), var(--text)) bottom right / 6px 13px no-repeat;
-        }
-        .card-split > .simple-frame {
-            flex: 0 0 220px;
-            width: 220px;
-            max-width: 40%;
-        }
-        .simple-frame img {
-            display: block;
-            width: 100%;
-        }
         @media (max-width: 640px) {
             .card-split {
                 flex-direction: column;
                 align-items: stretch;
             }
-            .card-image,
-            .card-split > .simple-frame {
+            .card-image {
                 width: 100%;
                 max-width: none;
-                flex: 0 0 auto;
             }
             .gallery {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -310,6 +275,12 @@
             font-size: 1.2em;
             font-weight: 700;
             margin: 0 0 12px;
+        }
+        .card h2.pixel-heading {
+            font-family: "Redaction 50", Georgia, "Times New Roman", serif;
+            font-size: 1.5em;
+            font-weight: 400;
+            line-height: 1.25;
         }
         .card p {
             margin: 0 0 18px;
@@ -766,9 +737,7 @@
                 </p>
                 <a href="RL_Capstone_SOTF.pdf" target="_blank" class="pdf-link">Read the paper (PDF) &rarr;</a>
             </div>
-            <div class="simple-frame card-image">
-                <img src="images/bipedal-capstone.png" alt="Bipedal humanoid rigged with a bone and collider skeleton in the Unity editor">
-            </div>
+            <img src="images/bipedal-capstone.png" alt="Bipedal humanoid rigged with a bone and collider skeleton in the Unity editor" class="card-image">
         </div>
 
         <div class="card">
@@ -805,7 +774,7 @@
             <a href="https://youtube.com/playlist?list=PLWAPdzITNmQ4&si=BB6sI0UHzQ9lBEIB" target="_blank" class="pdf-link">Listen on YouTube &rarr;</a>
         </div>
         <div class="card">
-            <h2>Myths (EP)<span class="year">Spring 2022</span></h2>
+            <h2>Myths<span class="year">Spring 2022</span></h2>
             <ul class="tags">
                 <li>Electronic Music</li>
             </ul>
@@ -828,7 +797,7 @@
 
     <section class="panel" id="extras">
         <div class="card">
-            <h2>Pixel art</h2>
+            <h2 class="pixel-heading">Pixel art</h2>
             <p>D&amp;D characters and game sprites I've made!</p>
             <div class="gallery">
                 <button type="button" class="gallery-item" data-src="images/pixel-art/Caelum3.png" data-alt="Pixel art: Caelum"><img src="images/pixel-art/Caelum3.png" alt="Pixel art: Caelum" loading="lazy"></button>
