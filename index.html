@@ -1120,7 +1120,7 @@
                 // Clamp so iOS rubber-band overscroll doesn't whip the background around.
                 const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
                 const scrollNow = Math.min(Math.max(window.scrollY, 0), maxScroll);
-                pageScroll += (scrollNow - pageScroll) * 0.08;
+                if (!motionPaused) pageScroll += (scrollNow - pageScroll) * 0.08;
                 const zShift = time * scrollSpeed - pageScroll * scrollParallax;
                 const xShift = time * driftSpeed;
                 const tStart = Math.floor((nearDist - dotSpacing * 2 + zShift) / dotSpacing) * dotSpacing;
