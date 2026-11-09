@@ -115,6 +115,8 @@
             margin-left: 0.35em;
             vertical-align: -0.04em;
             image-rendering: pixelated;
+            /* Matches the soft, slightly degraded edges of Redaction 50 */
+            filter: blur(0.35px);
         }
         :root:not([data-theme="light"]) header.hero h1 .mascot image {
             filter: url(#dragon-tint);
@@ -243,6 +245,30 @@
             align-items: center;
             gap: 28px;
         }
+        @media (min-width: 641px) {
+            /* Picture column starts level with the top of the tags row, on every card */
+            .card-split {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 220px;
+                grid-template-rows: auto auto auto 1fr;
+                column-gap: 28px;
+                row-gap: 0;
+                align-items: start;
+            }
+            .card-split > div {
+                display: contents;
+            }
+            .card-split > div > * {
+                grid-column: 1;
+            }
+            .card-split > .card-image {
+                grid-column: 2;
+                grid-row: 2 / span 3;
+                width: 100%;
+                max-width: none;
+                margin-top: -2px;
+            }
+        }
         .card-split > div {
             flex: 1 1 auto;
             min-width: 0;
@@ -251,6 +277,7 @@
             flex: 0 0 auto;
             width: 220px;
             max-width: 40%;
+            margin-top: 30px;
             border-radius: 6px;
             border: 1px solid var(--border-strong);
         }
@@ -262,6 +289,7 @@
             .card-image {
                 width: 100%;
                 max-width: none;
+                margin-top: 0;
             }
             .gallery {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -441,6 +469,12 @@
         .pdf-link:hover {
             text-decoration: underline;
         }
+        .link-row {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -541,14 +575,22 @@
             border-radius: 3px;
             padding: 3px 8px;
         }
+        .card:has(h2 .year) {
+            position: relative;
+        }
         .card h2:has(.year) {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 16px;
+            padding-right: 110px;
+        }
+        @media (min-width: 641px) {
+            .card-split h2:has(.year) {
+                padding-right: 0;
+            }
         }
         .card h2 .year {
-            flex: none;
+            position: absolute;
+            top: 35px;
+            right: 30px;
+            white-space: nowrap;
             font-family: var(--mono);
             font-size: 0.6em;
             font-weight: 400;
@@ -737,7 +779,10 @@
                     shuffling and extreme leaning, to demonstrate how agents exploit physics engines to find local
                     optima rather than natural locomotion.
                 </p>
-                <a href="RL_Capstone_SOTF.pdf" target="_blank" class="pdf-link">Read the paper (PDF) &rarr;</a>
+                <div class="link-row">
+                    <a href="RL_Capstone_SOTF.pdf" target="_blank" class="pdf-link">Read the paper (PDF) &rarr;</a>
+                    <a href="RL_Capstone_Presentation.pdf" target="_blank" class="pdf-link">View the presentation (PDF) &rarr;</a>
+                </div>
             </div>
             <img src="images/bipedal-capstone.png" alt="Bipedal humanoid rigged with a bone and collider skeleton in the Unity editor" class="card-image">
         </div>
@@ -758,7 +803,29 @@
                 of Random Forest Classifiers, CNNs, and LSTMs on a dataset of Rock, Electronic, Folk,
                 and Classical music.
             </p>
-            <a href="MLPaperEdwards.pdf" target="_blank" class="pdf-link">Read the paper (PDF) &rarr;</a>
+            <div class="link-row">
+                <a href="MLPaperEdwards.pdf" target="_blank" class="pdf-link">Read the paper (PDF) &rarr;</a>
+                <a href="Music_Genre_Presentation.pdf" target="_blank" class="pdf-link">View the presentation (PDF) &rarr;</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Deep Learning Models for Breast Cancer Detection<span class="year">Summer 2024</span></h2>
+            <ul class="tags">
+                <li>Machine Learning</li>
+                <li>Deep Learning</li>
+                <li>CNNs</li>
+                <li>Medical Imaging</li>
+            </ul>
+            <p>
+                A summer research internship at Saint John's University comparing pre-trained CNN
+                models (RepVGG, DarkNet, MobileNet, and GhostNet) for breast cancer detection on over
+                550,000 ROI, mammogram, and histology slide images. I cleaned and standardized the
+                datasets, prevented overfitting with image rotation, dropout, and noise, and tuned
+                hyperparameters like epochs, learning rate, optimizer, and batch size to reach roughly
+                97% accuracy, working with faculty and one other student.
+            </p>
+            <a href="Breast_Cancer_Poster.jpg" target="_blank" class="pdf-link">View the poster &rarr;</a>
         </div>
         </div>
     </section>
@@ -775,16 +842,23 @@
             </p>
             <a href="https://youtube.com/playlist?list=PLWAPdzITNmQ4&si=BB6sI0UHzQ9lBEIB" target="_blank" class="pdf-link">Listen on YouTube &rarr;</a>
         </div>
-        <div class="card">
-            <h2>Myths<span class="year">Spring 2022</span></h2>
-            <ul class="tags">
-                <li>Electronic Music</li>
-            </ul>
-            <p>
-                My first EP, made during the final semester of senior year of high school.
-                It's a collection of tracks ranging from EDM to dubstep.
-            </p>
-            <a href="https://youtube.com/playlist?list=PLGr8VP3pqVwI55nI88WAr2feB1mn14qXl&si=SHMpyDiLP261O2rq" target="_blank" class="pdf-link">Listen on YouTube &rarr;</a>
+        <div class="card card-split">
+            <div>
+                <h2>Myths<span class="year">Spring 2022</span></h2>
+                <ul class="tags">
+                    <li>Electronic Music</li>
+                </ul>
+                <p>
+                    My first EP, made during my final semester of my senior year in high school.
+                    It's a collection of tracks ranging from EDM to dubstep. It was made entirely in
+                    the Cakewalk DAW, and features songs titled Dragon, Kraken, Krampus, and more!
+                </p>
+                <div class="link-row">
+                    <a href="https://open.spotify.com/album/2WkTRZv9LZ8Ct4CBBrRpuh?si=8vp0kOHoTeC28l8G5TCGIQ" target="_blank" class="pdf-link">Listen on Spotify &rarr;</a>
+                    <a href="https://youtube.com/playlist?list=PLGr8VP3pqVwI55nI88WAr2feB1mn14qXl&si=SHMpyDiLP261O2rq" target="_blank" class="pdf-link">Listen on YouTube &rarr;</a>
+                </div>
+            </div>
+            <img src="images/myths-cover.jpg" alt="Myths EP cover: an orange dragon with spread wings perched on a rock at sunset, with the word MYTHS in white capitals" class="card-image">
         </div>
         <div class="card">
             <p class="placeholder comment-block">// more music projects coming soon!</p>
