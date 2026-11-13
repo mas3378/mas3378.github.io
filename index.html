@@ -480,6 +480,42 @@
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 12px;
         }
+        /* Screenshot galleries: two across on the first row, then three across.
+           A gallery of exactly three shows all three in one row. */
+        .shot-gallery {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .shot-gallery .gallery-item {
+            grid-column: span 2;
+        }
+        .shot-gallery .gallery-item:nth-child(-n+2) {
+            grid-column: span 3;
+        }
+        .shot-gallery:has(> .gallery-item:nth-child(3):last-child) .gallery-item {
+            grid-column: span 2;
+        }
+        @media (max-width: 640px) {
+            .shot-gallery {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+            .shot-gallery .gallery-item,
+            .shot-gallery .gallery-item:nth-child(-n+2),
+            .shot-gallery:has(> .gallery-item:nth-child(3):last-child) .gallery-item {
+                grid-column: span 1;
+            }
+            .shot-gallery:has(> .gallery-item:nth-child(odd):last-child) .gallery-item:first-child {
+                grid-column: span 2;
+            }
+        }
+        .shot-gallery img {
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: transform 0.15s ease;
+        }
         .gallery-slot {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -866,6 +902,48 @@
     </section>
 
     <section class="panel" id="gamedev">
+        <div class="card">
+            <h2>Tower of Babel<span class="year">Fall 2023</span></h2>
+            <ul class="tags">
+                <li>Java</li>
+                <li>Dungeon Crawler</li>
+            </ul>
+            <p>
+                In this game, the player progresses through a maze of rooms arranged in a Java
+                HashMap. The goal is to reach the end of the maze as fast as possible, avoiding enemies
+                and collecting secrets along the way, and the score in the top right corner is based on
+                speed and items collected. Although the tutorial room says the player can attack, they
+                actually can't. It was developed entirely in Java using Swing by me and one other
+                classmate, and all of the art is my own.
+            </p>
+            <div class="shot-gallery">
+                <button type="button" class="gallery-item" data-src="images/gamedev/tower-hall.png" data-alt="A hall with winged statues, a door at the top, and an enemy slime"><img src="images/gamedev/tower-hall.png" alt="A hall with winged statues, a door at the top, and an enemy slime" width="1919" height="1439" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/gamedev/tower-tutorial.png" data-alt="Tutorial room with controls for moving, interacting, saving, and attacking"><img src="images/gamedev/tower-tutorial.png" alt="Tutorial room with controls for moving, interacting, saving, and attacking" width="1919" height="1439" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/gamedev/tower-spikes.png" data-alt="A winding room with spike traps on the floor"><img src="images/gamedev/tower-spikes.png" alt="A winding room with spike traps on the floor" width="1919" height="1439" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/gamedev/tower-treasure.png" data-alt="A treasure room with gold scattered on the floor and a chest to open"><img src="images/gamedev/tower-treasure.png" alt="A treasure room with gold scattered on the floor and a chest to open" width="1919" height="1439" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/gamedev/tower-tetris.png" data-alt="A wide room with doors on three sides and an enemy slime"><img src="images/gamedev/tower-tetris.png" alt="A wide room with doors on three sides and an enemy slime" width="1919" height="1439" loading="lazy"></button>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Turn-Based RPG<span class="year">Fall 2022</span></h2>
+            <ul class="tags">
+                <li>Python</li>
+                <li>Turn-Based</li>
+            </ul>
+            <p>
+                My first game, developed in the fall of 2022 and written entirely in Python using
+                Pygame. You build a party from a roster of characters split into damage and support
+                roles, then take turns attacking enemies or shielding your allies. Health, damage,
+                and shield values are tracked for everyone, and an in-game help menu explains how it
+                all works. Fun fact: the whole game was written in a single Python file and uses only
+                5 classes.
+            </p>
+            <div class="shot-gallery">
+                <button type="button" class="gallery-item" data-src="images/gamedev/pygame-select.png" data-alt="Character select screen with damage and support roles"><img src="images/gamedev/pygame-select.png" alt="Character select screen with damage and support roles" width="1796" height="1018" loading="lazy"</button>
+                <button type="button" class="gallery-item" data-src="images/gamedev/pygame-battle.png" data-alt="Battle screen with three party members facing three enemies"><img src="images/gamedev/pygame-battle.png" alt="Battle screen with three party members facing three enemies" width="1796" height="1018" loading="lazy"</button>
+                <button type="button" class="gallery-item" data-src="images/gamedev/pygame-help.png" data-alt="In-game help menu explaining health, damage, shields, and turn indicators"><img src="images/gamedev/pygame-help.png" alt="In-game help menu explaining health, damage, shields, and turn indicators" width="1796" height="1018" loading="lazy"</button>
+            </div>
+        </div>
         <div class="card">
             <p class="placeholder comment-block">// more game development projects coming soon!</p>
         </div>
