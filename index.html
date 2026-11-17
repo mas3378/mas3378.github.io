@@ -370,6 +370,15 @@
             width: 170px;
             margin: 6px;
         }
+        @media (min-width: 641px) {
+            /* Text starts level with the top of the trombone photo's frame */
+            .about-row {
+                align-items: flex-start;
+            }
+            .about-row .about-photo-left-wrap {
+                margin-top: 13px;
+            }
+        }
         .about::after {
             content: "";
             display: block;
@@ -410,9 +419,14 @@
                 grid-column: 2;
                 grid-row: 1;
             }
-            .about-row-text p + p {
+            .about-row-text p:nth-child(2) {
                 grid-column: 1 / -1;
                 grid-row: 2;
+                margin-top: 16px;
+            }
+            .about-row-text p:nth-child(3) {
+                grid-column: 1 / -1;
+                grid-row: 3;
                 margin-top: 16px;
             }
         }
@@ -496,6 +510,128 @@
         .shot-gallery:has(> .gallery-item:nth-child(3):last-child) .gallery-item {
             grid-column: span 2;
         }
+        /* When the last row would only hold two pictures, make them two across too */
+        .shot-gallery:has(> .gallery-item:nth-child(3n+1):last-child) .gallery-item:nth-last-child(-n+2) {
+            grid-column: span 3;
+        }
+        /* Mixed-size pictures share one shape so the rows line up */
+        .shot-gallery.uniform img {
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+        .card p.credits {
+            font-size: 0.9em;
+            margin: 12px 0 0;
+        }
+        .audio-demo {
+            margin-top: 28px;
+        }
+        .mini-heading {
+            font-family: var(--mono);
+            font-size: 0.78em;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 0 0 10px;
+        }
+        .audio-player {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-strong);
+            border-radius: 6px;
+            background: var(--accent-wash);
+        }
+        .ap-play {
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            background: none;
+            color: var(--accent);
+            cursor: pointer;
+        }
+        .ap-play:hover {
+            background: var(--accent-wash);
+        }
+        .ap-play svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+        .ap-play .ap-icon-pause,
+        .audio-player.playing .ap-play .ap-icon-play {
+            display: none;
+        }
+        .audio-player.playing .ap-play .ap-icon-pause {
+            display: inline;
+        }
+        .ap-body {
+            flex: 1;
+            min-width: 0;
+        }
+        .ap-title {
+            font-family: var(--mono);
+            font-size: 0.75em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .ap-title span {
+            color: var(--text-muted);
+            margin-left: 6px;
+        }
+        .ap-seek {
+            display: block;
+            width: 100%;
+            margin: 0;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        .ap-volume {
+            flex: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+        }
+        .ap-volume svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        .ap-volume.muted .ap-wave {
+            display: none;
+        }
+        .ap-vol {
+            width: 80px;
+            margin: 0;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        /* Phones and tablets ignore page volume controls; the hardware buttons set it */
+        @media (pointer: coarse) {
+            .ap-volume {
+                display: none;
+            }
+        }
+        .ap-time {
+            flex: none;
+            font-family: var(--mono);
+            font-size: 0.72em;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+        }
+        .card p.credits a {
+            color: var(--accent);
+        }
         @media (max-width: 640px) {
             .shot-gallery {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -503,7 +639,8 @@
             }
             .shot-gallery .gallery-item,
             .shot-gallery .gallery-item:nth-child(-n+2),
-            .shot-gallery:has(> .gallery-item:nth-child(3):last-child) .gallery-item {
+            .shot-gallery:has(> .gallery-item:nth-child(3):last-child) .gallery-item,
+            .shot-gallery:has(> .gallery-item:nth-child(3n+1):last-child) .gallery-item:nth-last-child(-n+2) {
                 grid-column: span 1;
             }
             .shot-gallery:has(> .gallery-item:nth-child(odd):last-child) .gallery-item:first-child {
@@ -903,6 +1040,57 @@
 
     <section class="panel" id="gamedev">
         <div class="card">
+            <h2>Descent<span class="year">Summer 2026 &ndash; Present</span></h2>
+            <ul class="tags">
+                <li>Unity</li>
+                <li>Roguelike</li>
+            </ul>
+            <p>
+                The player explores a lost ancient civilization to uncover the secrets of a forgotten
+                religion, but ends up finding much more in the depths than they bargained for&hellip;
+                An unknown evil lurks below, and by uncovering the history of the civilization that now
+                lies in ruin, the player learns more about what might have happened and the challenges
+                they'll face as they descend deeper.
+            </p>
+            <p>
+                Descent is being made in Unity by me and a group of five friends, and is still in very
+                early development. Right now there are four player classes: Ranger, Tank, Warrior, and
+                Mage.
+            </p>
+            <div class="shot-gallery uniform">
+                <button type="button" class="gallery-item" data-src="images/descent/environments.webp" data-alt="Five painted environment concepts of overgrown ruins, shrines, and a fountain"><img src="images/descent/environments.webp" alt="Five painted environment concepts of overgrown ruins, shrines, and a fountain" width="2000" height="1125" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/descent/ranger-sketches.webp" data-alt="Ranger character sketches with a bow and grappling rope"><img src="images/descent/ranger-sketches.webp" alt="Ranger character sketches with a bow and grappling rope" width="2000" height="1125" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/descent/priest-concepts.webp" data-alt="Concept sketches of figures whose eyes are covered or altered"><img src="images/descent/priest-concepts.webp" alt="Concept sketches of figures whose eyes are covered or altered" width="2000" height="1125" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/descent/glyphs.webp" data-alt="Thirty-one glyph designs for the ancient civilization's script"><img src="images/descent/glyphs.webp" alt="Thirty-one glyph designs for the ancient civilization's script" width="2000" height="1125" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/descent/flame-glyphs.webp" data-alt="Twenty-three flame-shaped symbol designs"><img src="images/descent/flame-glyphs.webp" alt="Twenty-three flame-shaped symbol designs" width="2000" height="1125" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/descent/enemy-prototype.png" data-alt="Prototype of an armored insect-like enemy in a Unity test room"><img src="images/descent/enemy-prototype.png" alt="Prototype of an armored insect-like enemy in a Unity test room" width="1117" height="625" loading="lazy"></button>
+                <button type="button" class="gallery-item" data-src="images/descent/foliage-models.webp" data-alt="Tree and fern models with leaf textures in Blender"><img src="images/descent/foliage-models.webp" alt="Tree and fern models with leaf textures in Blender" width="1312" height="851" loading="lazy"></button>
+            </div>
+            <p class="credits">
+                Art by <a href="https://faithopolis.com/" target="_blank" rel="noopener">Faith Miller</a>
+                &middot; Modeling by <a href="https://nicolereiling.com/" target="_blank" rel="noopener">Nicole Reiling</a>
+            </p>
+            <div class="audio-demo">
+                <h3 class="mini-heading">// Music</h3>
+                <div class="audio-player">
+                    <button type="button" class="ap-play" aria-label="Play">
+                        <svg viewBox="0 0 12 12" aria-hidden="true"><path class="ap-icon-play" d="M3 1.5v9l7.5-4.5z"/><path class="ap-icon-pause" d="M2.5 1.5h2.5v9H2.5zM7 1.5h2.5v9H7z"/></svg>
+                    </button>
+                    <div class="ap-body">
+                        <div class="ap-title">Substruct <span>// demo</span></div>
+                        <input type="range" class="ap-seek" min="0" max="1000" value="0" step="1" aria-label="Seek">
+                    </div>
+                    <span class="ap-time">0:00</span>
+                    <label class="ap-volume">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3.5v11L5 10H2z"/><path class="ap-wave" d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.5a6.3 6.3 0 0 1 0 9" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                        <input type="range" class="ap-vol" min="0" max="1" step="0.01" value="1" aria-label="Volume">
+                    </label>
+                    <audio preload="metadata" src="audio/descent-substruct-demo.mp3"></audio>
+                </div>
+                <p class="credits">Music by Sam Edwards</p>
+            </div>
+        </div>
+        <div class="card">
             <h2>Tower of Babel<span class="year">Fall 2023</span></h2>
             <ul class="tags">
                 <li>Java</li>
@@ -992,7 +1180,7 @@
             <span class="framed about-photo-wrap"><img class="about-photo" src="images/sam.jpg" alt="Photo of Sam Edwards smiling, with curly shoulder-length hair and glasses, in a dark quarter-zip sweater" width="280" height="308"></span>
             <p class="greeting"><span class="hello">Hello!<span class="sparkles" aria-hidden="true"></span></span></p>
             <p>
-                My name is Sam, I'm a computer scientist and data engineer at Collective Measures in
+                My name is Sam. I'm a computer scientist and data engineer at Collective Measures in
                 Minneapolis. I graduated magna cum laude from Saint John's University in 2026 with a
                 B.A. in computer science.
             </p>
@@ -1009,9 +1197,13 @@
                 <div class="about-row-text">
                     <p>
                 I've played bass trombone for over 12 years in a couple of different wind ensembles
-                and jazz bands, and I swam competitive sprint freestyle and butterfly for nearly a
-                decade. I love to play D&amp;D with friends, as both game master and player.
-                </p>
+                and jazz bands, and it&rsquo;s a big part of why I still make music! I&rsquo;m currently
+                playing in a local community band.
+                    </p>
+                    <p>
+                I also swam competitive sprint freestyle and butterfly for nearly a decade on high
+                school, club, and college teams.
+                    </p>
                     <p>
                 Right now, I'm working with a group of friends on a new video game called Descent, my spin on a roguelike with
                 heavy themes of corruption and divinity. The player explores a lost ancient
@@ -1021,7 +1213,7 @@
                 </div>
             </div>
             <p class="wide">
-                Looking ahead, I'm getting ready for graduate school to get more hands&#8209;on with
+                Looking ahead, I'm getting ready for graduate school to get more experience with
                 robotics and intelligent systems. If you'd like to get in touch, feel free to reach out through
                 <a href="mailto:samedwardscsci@gmail.com">email</a> or on
                 <a href="https://www.linkedin.com/in/samedwardscsci/" target="_blank">LinkedIn</a>!
@@ -1520,6 +1712,66 @@
                 showOne();
                 setInterval(showOne, every);
             }, 600);
+        })();
+
+        (() => {
+            const fmt = t => {
+                if (!isFinite(t)) return '0:00';
+                const m = Math.floor(t / 60);
+                const sec = Math.floor(t % 60);
+                return m + ':' + String(sec).padStart(2, '0');
+            };
+            document.querySelectorAll('.audio-player').forEach(player => {
+                const audio = player.querySelector('audio');
+                const btn = player.querySelector('.ap-play');
+                const seek = player.querySelector('.ap-seek');
+                const time = player.querySelector('.ap-time');
+                const vol = player.querySelector('.ap-vol');
+                const volWrap = player.querySelector('.ap-volume');
+                let seeking = false;
+                try {
+                    const saved = localStorage.getItem('se-volume');
+                    if (saved !== null) vol.value = saved;
+                } catch (e) {}
+                const applyVolume = () => {
+                    audio.volume = Number(vol.value);
+                    volWrap.classList.toggle('muted', Number(vol.value) === 0);
+                };
+                applyVolume();
+                vol.addEventListener('input', () => {
+                    applyVolume();
+                    try { localStorage.setItem('se-volume', vol.value); } catch (e) {}
+                });
+                const showTime = () => {
+                    time.textContent = audio.currentTime > 0 || !player.classList.contains('started')
+                        ? fmt(audio.currentTime) + ' / ' + fmt(audio.duration)
+                        : fmt(audio.duration);
+                };
+                audio.addEventListener('loadedmetadata', () => { time.textContent = fmt(audio.duration); });
+                audio.addEventListener('timeupdate', () => {
+                    if (!seeking && audio.duration) seek.value = Math.round(audio.currentTime / audio.duration * 1000);
+                    if (player.classList.contains('started')) showTime();
+                });
+                audio.addEventListener('play', () => {
+                    player.classList.add('playing', 'started');
+                    btn.setAttribute('aria-label', 'Pause');
+                    document.querySelectorAll('.audio-player audio').forEach(other => { if (other !== audio) other.pause(); });
+                });
+                audio.addEventListener('pause', () => {
+                    player.classList.remove('playing');
+                    btn.setAttribute('aria-label', 'Play');
+                });
+                audio.addEventListener('ended', () => { seek.value = 0; audio.currentTime = 0; });
+                btn.addEventListener('click', () => { audio.paused ? audio.play() : audio.pause(); });
+                seek.addEventListener('input', () => {
+                    seeking = true;
+                    if (audio.duration) time.textContent = fmt(seek.value / 1000 * audio.duration) + ' / ' + fmt(audio.duration);
+                });
+                seek.addEventListener('change', () => {
+                    if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration;
+                    seeking = false;
+                });
+            });
         })();
 
         (() => {
